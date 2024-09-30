@@ -14,14 +14,17 @@ func main() {
 	count := 0
 	finished := 0
 	var mu sync.Mutex
-	//cond := sync.NewCond(&mu)
-	cond := sync.Cond{L: &mu}
+	cond := sync.NewCond(&mu)
+	//cond := sync.Cond{L: &mu}
 	for i := 0; i < 10; i++ {
 		// 匿名函数，创建共 10 个线程
 		go func() {
 			vote := requestVote() // 一个内部sleep随机时间，最后返回true的函数，模拟投票
 			// 临界区加锁
 			mu.Lock()
+			// Broadcast 唤醒所有等待条件变量 c 的 goroutine，无需锁保护；Signal 只唤醒任意 1 个等待条件变量 c 的 goroutine，无需锁保护。
+			// 这里只有一个waiter，所以用Signal或者Broadcast都可以
+			defer cond.Broadcast()
 			// 推迟到基本block结束后执行，这里即函数执行结束后 自动执行解锁操作。利用defer语言，一般在声明加锁后，立即defer声明推迟解锁
 			defer mu.Unlock()
 			if vote {
@@ -29,7 +32,6 @@ func main() {
 			}
 			finished++
 
-			cond.Broadcast()
 		}()
 	}
 	mu.Lock()
