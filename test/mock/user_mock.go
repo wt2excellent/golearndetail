@@ -6,7 +6,6 @@ package mock
 
 import (
 	context "context"
-	test "learn_go/test"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
@@ -36,10 +35,10 @@ func (m *MockUserData) EXPECT() *MockUserDataMockRecorder {
 }
 
 // GetUserByMobile mocks base method.
-func (m *MockUserData) GetUserByMobile(ctx context.Context, mobile string) (test.User, error) {
+func (m *MockUserData) GetUserByMobile(ctx context.Context, mobile string) (User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByMobile", ctx, mobile)
-	ret0, _ := ret[0].(test.User)
+	ret0, _ := ret[0].(User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

@@ -5,12 +5,11 @@
 // @contact   : 15537588047@163.com
 // @time      : 2024/10/4 13:23
 // ------------------------------------------------------------
-package test
+package mock
 
 import (
 	"context"
 	"github.com/golang/mock/gomock"
-	"learn_go/test/mock"
 	"testing"
 )
 
@@ -18,7 +17,7 @@ func TestGetUserByMobile(t *testing.T) {
 	// mock准备工作
 	ctl := gomock.NewController(t)
 	defer ctl.Finish()
-	userData := mock.NewMockUserData(ctl)
+	userData := NewMockUserData(ctl)
 	userData.EXPECT().GetUserByMobile(gomock.Any(), "15023076751").Return(
 		User{
 			Mobile:   "15023076751",
