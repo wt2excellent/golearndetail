@@ -30,7 +30,7 @@ func Test_compute(t *testing.T) {
 	}
 }
 
-// 对方法进行mock
+// 对结构体中的方法进行mock
 func Test_Compute_NetworkCompute(t *testing.T) {
 	var compute *Compute
 	patches := gomonkey.ApplyMethod(reflect.TypeOf(compute), "NetworkCompute", func(_ *Compute, a, b int) (int, error) {
